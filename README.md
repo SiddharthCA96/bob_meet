@@ -1,143 +1,101 @@
 📘 BOG Meeting RAG-Based Ordinance Chatbot
 
-A Retrieval-Augmented Generation (RAG) powered chatbot designed to answer queries related to Board of Governors (BOG) meeting ordinances, summaries, and institutional documents.
-The system uses vector embeddings, graph-based knowledge representation, and LLM-powered reasoning to provide accurate, citation-backed responses.
+A Retrieval-Augmented Generation (RAG) powered chatbot designed to answer queries related to Board of Governors (BOG) meeting ordinances, summaries, and institutional documents. The system uses vector embeddings, graph-based knowledge representation, and LLM-powered reasoning to provide accurate, citation-backed responses.
 
 📁 Project Structure
 BOG_MEETING_CHATBOT/
 │
-├── logs/                         # System logs & debug files
-├── summaries/                    # Generated summaries of ordinances/BOG documents
-├── vector_store/                 # Saved embeddings & vector index
+├── logs/                       # System logs & debug files
+├── summaries/                  # Generated summaries of ordinances/BOG documents
+├── vector_store/               # Saved embeddings & vector index
 │
-├── chatbot_ui.py                 # Chat UI (Streamlit/Gradio) for user interaction
-├── create_graph_database.py      # Creates graph/knowledge DB (Neo4j / NetworkX)
-├── create_vector_embedding.py    # PDF/text chunking + embedding creation pipeline
+├── chatbot_ui.py               # Chat UI (Streamlit/Gradio) for interaction
+├── create_graph_database.py    # Creates graph/knowledge DB (Neo4j / NetworkX)
+├── create_vector_embedding.py  # PDF/text chunking + embedding creation pipeline
+├── rag_query_handler.py        # Main RAG pipeline (retrieval + generation)
 │
-├── rag_query_handler.py          # Main RAG pipeline (retrieval + generation)
-├── rag_debug.log                 # Debug logs for RAG pipeline
-├── debug.log                     # General system logs
+├── rag_debug.log               # Debug logs for RAG pipeline
+├── debug.log                   # General system logs
 │
-├── Pipfile                       # Pipenv environment file
-├── Pipfile.lock                  # Pipenv lock
-├── requirement.txt               # Requirements for pip users
-├── .gitignore                    # Git ignored paths
-└── README.md                     # Project documentation
+├── Pipfile                     # Pipenv environment file
+├── Pipfile.lock                # Pipenv lock
+├── requirement.txt             # Requirements for pip users
+├── .gitignore                  # Git ignored paths
+└── README.md                   # Project documentation
 
 🚀 Features
-🔍 Hybrid RAG Pipeline
 
-Dense vector search (via embeddings)
+🔍 Hybrid RAG Pipeline using embeddings + graph retrieval
 
-Optional graph-based retrieval (relations between entities)
+🧠 LLM-based generation grounded in retrieved context
 
-Combined context fed to LLM for grounded answers
+📄 PDF/text processing for ordinance documents
 
-🧠 LLM-Driven Response Generation
+💬 Interactive UI for end-user querying
 
-Uses Groq/OpenAI/Llama models (depending on configuration):
-
-Generates precise answers
-
-Includes fallback logic for unclear queries
-
-Avoids hallucination by grounding responses in documents
-
-📄 Document Processing
-
-Processes BOG meeting ordinances
-
-Summarizes key sections
-
-Converts PDF → text → chunks → embeddings
-
-💬 Interactive Chat Interface
-
-Simple UI (Streamlit or Gradio)
-
-User query history
-
-Debug info (optional)
+🧱 Modular architecture for easy scaling
 
 ⚙️ Installation
-1. Clone the repository
+Clone the repository
 git clone https://github.com/<your-username>/BOG_MEETING_CHATBOT.git
 cd BOG_MEETING_CHATBOT
 
-2. Install dependencies
-Using Pip:
+Install dependencies (Pip)
 pip install -r requirement.txt
 
-OR using Pipenv:
+
+Or using Pipenv:
+
 pipenv install
 pipenv shell
 
 🔑 Environment Variables
 
-Create a .env in the project root:
+Create a .env file:
 
-GROQ_API_KEY=your_api_key_here
-OPENAI_API_KEY=your_optional_openai_key
+GROQ_API_KEY=your_groq_key_here
+OPENAI_API_KEY=optional_openai_key
 
-
-Never hard-code API keys inside Python files.
-
-🏗️ Setup: Build Vector Embeddings
-
-Before running the chatbot, generate embeddings:
-
+🏗️ Generate Vector Embeddings
 python create_vector_embedding.py
 
-
-This will:
-
-✔ Load PDFs / text
-✔ Chunk data
-✔ Create embeddings
-✔ Save them in vector_store/
-
-🧪 Optional: Build Graph Knowledge Base
-
-Run this only if you're using graph-augmented RAG:
-
+🧪 (Optional) Build Graph Database
 python create_graph_database.py
 
 ▶️ Run the Chatbot UI
 python chatbot_ui.py
 
 
-Then open the local URL (e.g., http://localhost:8501).
+Open the generated local URL (e.g., http://localhost:8501).
 
-🧠 How RAG Works in This Project
+🧠 How It Works
 
-User enters a query.
+User enters a query
 
-System retrieves top relevant chunks from vector_store.
+System retrieves top relevant chunks from vector_store
 
-Graph DB supplements data with relationships if enabled.
+(Optional) Graph DB augments relational info
 
-LLM generates an answer grounded in retrieved info.
+LLM generates a grounded answer
 
-System logs detailed steps in rag_debug.log.
+Logs saved for debugging
 
 📚 Use Cases
 
 Query BOG meeting ordinances
 
-Understand rules, decisions, and resolutions
+Summaries of institutional documents
 
-Summaries of past meeting notes
+Understand decisions, rules, processes
 
-Assist administration, students, and faculty
+Assist faculty, students, administration
 
 ⭐ Future Enhancements
 
-Web deployment (Vercel/Render)
+Web deployment
 
-Improved summarizer using Llama/Groq large models
+Admin UI for uploading new documents
 
-Admin panel for uploading new meeting documents
+SQL/Redis vector stores
 
-SQL vector store integration
-
-Chat history memory
+Better summarization models
